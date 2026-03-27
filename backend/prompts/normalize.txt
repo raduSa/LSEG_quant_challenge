@@ -13,6 +13,8 @@ Your job is to:
 5. Identify directional edges. Mark each edge as "solid" (primary flow) or "dashed" (data fetch, storage, async)
 6. For colors: ONLY apply colors the user explicitly requests. If the user says "tools in red", mark tools as red. If the user says "classifier in green", mark the classifier green. For all other nodes, set color to null and let the system assign defaults by type.
 
+IMPORTANT: Node labels must NOT contain parentheses ( ) — they break the diagram renderer. Use a dash if you need a qualifier: "Alice - Mom" not "Alice (Mom)".
+
 Return ONLY valid JSON — no explanation, no markdown fences:
 {
   "nodes": [

@@ -48,6 +48,40 @@ def _extract_mermaid(text: str) -> str:
     return text.strip()
 
 
+def _sanitize_mermaid_labels(mermaid: str) -> str:
+    """
+    Strip parenthetical content from node labels to prevent Mermaid parse errors.
+    e.g.  alice[Alice (Mom)]  →  alice[Alice]
+    Leaves cylinder  [(Label)]  and stadium  ([Label])  shape-markers intact.
+    """
+
+    def clean_bracket(m: re.Match) -> str:
+        inner = m.group(1).strip()
+        # Cylinder pattern: entire content is wrapped in (...) — leave alone
+        if inner.startswith("(") and inner.endswith(")"):
+            return m.group(0)
+        cleaned = re.sub(r"\s*\([^)]*\)", "", inner).strip()
+        return f"[{cleaned}]" if cleaned else m.group(0)
+
+    result = []
+    for line in mermaid.splitlines():
+        s = line.strip()
+        # Skip non-node-declaration lines
+        if (
+            not s
+            or "-->" in s
+            or "-.->" in s
+            or "---" in s
+            or s.startswith(("flowchart", "graph", "classDef", "class ", "%%"))
+        ):
+            result.append(line)
+            continue
+        # Apply to all [...] bracket groups on the line
+        result.append(re.sub(r"\[([^\[\]]+)\]", clean_bracket, line))
+
+    return "\n".join(result)
+
+
 def _build_history_context(history: list[dict]) -> str:
     if not history:
         return ""
@@ -115,6 +149,7 @@ async def run_pipeline(query: str, session_id: str) -> dict:
     generate_prompt = _load_prompt("generate.txt")
     mermaid_raw = await chat(generate_prompt, json.dumps(structured, indent=2))
     mermaid_str = _extract_mermaid(mermaid_raw)
+    mermaid_str = _sanitize_mermaid_labels(mermaid_str)
 
     # Ensure it starts with flowchart declaration
     if not mermaid_str.startswith("flowchart") and not mermaid_str.startswith("graph"):

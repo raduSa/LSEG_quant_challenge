@@ -32,6 +32,7 @@ SYNTAX RULES:
 - NEVER use Mermaid reserved words as IDs: end, start, subgraph, graph, flowchart, direction, default, class, classDef, click, style, linkStyle. Append _node if needed.
 - Declare ALL nodes with shapes FIRST, then classDef, then class assignments, then edges LAST
 - Labels: 2-5 words max
+- NEVER use parentheses ( ) in any label — they break Mermaid syntax. Use a dash instead: "Alice - Mom" not "Alice (Mom)"
 - Output ONLY raw Mermaid code — no markdown fences, no explanation
 
 EXAMPLE:
