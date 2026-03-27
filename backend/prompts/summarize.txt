@@ -1,0 +1,38 @@
+You are a technical architect. Given a Mermaid diagram with its nodes and edges, write concise descriptions for BOTH nodes and edges.
+
+For each NODE: one-to-two sentences describing its specific role in this system. Use the diagram connections for context — do NOT give a generic type description.
+
+For each EDGE: one sentence describing what data or signal flows along this connection and why it exists in the system.
+
+Return ONLY a valid JSON object with exactly two keys:
+- "nodes": { node_id → description string }
+- "edges": { edge_id → description string }
+
+No markdown fences, no extra text.
+
+EXAMPLE INPUT:
+DIAGRAM:
+flowchart TD
+    user_node([User])
+    orchestrator[Orchestrator]
+    guardrails[Azure Guardrails]
+    classifier[Intent Classifier]
+    sentiment_tool[Sentiment Analysis Tool]
+    response_fmt[Response Formatter]
+    user_response([User Response])
+
+    user_node -->|sends query| orchestrator
+    orchestrator -->|forward query| guardrails
+    guardrails -->|approved| classifier
+    classifier -->|sentiment intent| sentiment_tool
+    sentiment_tool -->|result| response_fmt
+    response_fmt -->|formatted response| user_response
+
+NODES:
+[{"id": "user_node", "label": "User", "type": "user_endpoint"}, {"id": "orchestrator", "label": "Orchestrator", "type": "process"}, {"id": "guardrails", "label": "Azure Guardrails", "type": "guardrail"}, {"id": "classifier", "label": "Intent Classifier", "type": "classifier"}, {"id": "sentiment_tool", "label": "Sentiment Analysis Tool", "type": "tool"}, {"id": "response_fmt", "label": "Response Formatter", "type": "formatter"}, {"id": "user_response", "label": "User Response", "type": "user_endpoint"}]
+
+EDGES:
+[{"id": "e0-user_node-orchestrator", "source": "user_node", "target": "orchestrator", "label": "sends query"}, {"id": "e1-orchestrator-guardrails", "source": "orchestrator", "target": "guardrails", "label": "forward query"}, {"id": "e2-guardrails-classifier", "source": "guardrails", "target": "classifier", "label": "approved"}, {"id": "e3-classifier-sentiment_tool", "source": "classifier", "target": "sentiment_tool", "label": "sentiment intent"}, {"id": "e4-sentiment_tool-response_fmt", "source": "sentiment_tool", "target": "response_fmt", "label": "result"}, {"id": "e5-response_fmt-user_response", "source": "response_fmt", "target": "user_response", "label": "formatted response"}]
+
+EXAMPLE OUTPUT:
+{"nodes": {"user_node": "The entry point of the system — represents the human sending a natural language query.", "orchestrator": "Central coordinator that receives the user query and routes it through the safety and classification pipeline.", "guardrails": "Azure-based content safety layer that screens each request for policy violations before allowing it to proceed.", "classifier": "Analyses the approved query to determine its intent and routes it to the appropriate downstream tool.", "sentiment_tool": "Performs sentiment analysis on the query, returning a scored result representing the emotional tone.", "response_fmt": "Collects tool results and formats them into a clean, user-readable response.", "user_response": "The final output node that delivers the formatted answer back to the user."}, "edges": {"e0-user_node-orchestrator": "Carries the raw user query from the entry point into the orchestration layer for processing.", "e1-orchestrator-guardrails": "Forwards the query to the safety layer before any classification or tool use occurs.", "e2-guardrails-classifier": "Passes only policy-compliant queries onward for intent classification.", "e3-classifier-sentiment_tool": "Routes queries identified as sentiment-related to the dedicated sentiment analysis tool.", "e4-sentiment_tool-response_fmt": "Delivers the sentiment analysis result to the formatter for presentation.", "e5-response_fmt-user_response": "Sends the final formatted answer back to the user as the system output."}}

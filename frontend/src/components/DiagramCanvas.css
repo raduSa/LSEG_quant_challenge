@@ -1,0 +1,367 @@
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #f4f7fa;
+}
+
+.canvas-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #aab;
+  font-size: 14px;
+  pointer-events: none;
+  text-align: center;
+}
+
+.canvas-hint {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #aab;
+  font-size: 11px;
+  pointer-events: none;
+  white-space: nowrap;
+  background: rgba(255,255,255,0.8);
+  padding: 3px 10px;
+  border-radius: 10px;
+}
+
+/* ── Shared node base ─────────────────────────────────────────────────────── */
+
+[class^="cn-"] {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  cursor: grab;
+  transition: box-shadow 0.15s;
+}
+
+.cn--selected {
+  box-shadow: 0 0 0 2px #7aaecc, 0 2px 8px rgba(0,0,0,0.10) !important;
+}
+
+/* ── ProcessNode / ToolNode / FormatterNode — rounded rect ───────────────── */
+
+.cn-process {
+  padding: 10px 20px;
+  border-radius: 8px;
+  min-width: 130px;
+}
+
+/* ── UserNode — stadium / pill ───────────────────────────────────────────── */
+
+.cn-user {
+  padding: 8px 24px;
+  border-radius: 50px;
+  min-width: 110px;
+}
+
+/* ── DatabaseNode — cylinder ─────────────────────────────────────────────── */
+
+.cn-database {
+  padding: 18px 18px 10px;
+  border-radius: 0 0 50% 50% / 0 0 20% 20%;
+  min-width: 140px;
+  position: relative;
+}
+
+.cn-database__cap {
+  position: absolute;
+  top: -9px;
+  left: -2px;
+  right: -2px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+/* ── GuardrailNode — hexagon via clip-path ───────────────────────────────── */
+
+.cn-guardrail {
+  padding: 10px 30px;
+  border-radius: 4px;
+  min-width: 150px;
+  clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ── BlockedNode — pill, terminal ────────────────────────────────────────── */
+
+.cn-blocked {
+  padding: 8px 20px;
+  border-radius: 50px;
+  min-width: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ── ClassifierNode — slightly thicker border, distinctive ──────────────── */
+
+.cn-classifier {
+  padding: 10px 20px;
+  border-radius: 4px;
+  min-width: 140px;
+  border-width: 2.5px !important;
+}
+
+/* ── Icon helper ─────────────────────────────────────────────────────────── */
+
+.cn-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ── Custom edge label ───────────────────────────────────────────────────── */
+
+.edge-label-wrap {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #3a5068;
+  background: #ffffff;
+  border: 1px solid #d4e0ec;
+  border-radius: 5px;
+  padding: 2px 7px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  transition: border-color 0.12s, box-shadow 0.12s;
+  user-select: none;
+}
+
+.edge-label-wrap:hover {
+  border-color: #9fb8ce;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+}
+
+.edge-label-wrap--selected {
+  border-color: #7aaecc;
+  box-shadow: 0 0 0 2px #c6dff0, 0 1px 4px rgba(0,0,0,0.07);
+}
+
+/* ── Unified info panel ──────────────────────────────────────────────────── */
+
+.info-panel {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 292px;
+  background: #fff;
+  border: 1px solid #ccd8e8;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.09);
+  z-index: 10;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+.info-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 12px 9px;
+  border-bottom: 1px solid #edf2f7;
+  background: #f8fafc;
+}
+
+.info-panel__icon {
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.info-panel__title {
+  font-weight: 600;
+  font-size: 13px;
+  color: #2c3e50;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.info-panel__title--edge {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #4a6070;
+}
+
+.info-panel__badge {
+  font-size: 10px;
+  color: #7fa8c4;
+  background: #edf4fc;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: capitalize;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.info-panel__close {
+  background: none;
+  border: none;
+  color: #b0bbc8;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0 0 4px;
+  flex-shrink: 0;
+}
+
+.info-panel__close:hover { color: #5d6d7e; }
+
+.info-panel__body {
+  padding: 11px 14px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #3d5166;
+  min-height: 48px;
+}
+
+.info-panel__body p { margin: 0; }
+
+.info-panel__empty {
+  color: #a8b5c2;
+  font-style: italic;
+}
+
+/* ── Edge-panel extras ───────────────────────────────────────────────────── */
+
+.info-panel__field {
+  padding: 8px 14px 4px;
+  border-bottom: 1px solid #f0f5fa;
+}
+
+.info-panel__field-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: #8fa8be;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.info-panel__input {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: #2c3e50;
+  background: #f8fafc;
+  border: 1px solid #d0dce8;
+  border-radius: 5px;
+  padding: 4px 8px;
+  outline: none;
+  transition: border-color 0.12s;
+}
+
+.info-panel__input:focus {
+  border-color: #9fb8ce;
+  background: #fff;
+}
+
+.info-panel__nudge {
+  padding: 8px 14px 10px;
+  border-top: 1px solid #edf2f7;
+  background: #f8fafc;
+}
+
+.nudge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 28px);
+  grid-template-rows: repeat(3, 24px);
+  gap: 3px;
+  margin-top: 6px;
+  justify-content: center;
+}
+
+.nudge-btn {
+  background: #edf4fc;
+  border: 1px solid #cad8e8;
+  border-radius: 4px;
+  color: #3a6a94;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.1s;
+}
+
+.nudge-btn:hover { background: #d4e8f7; }
+
+.nudge-btn--reset {
+  background: #eef4f8;
+  color: #6a8aaa;
+  font-size: 11px;
+}
+
+/* ── Node-panel footer ───────────────────────────────────────────────────── */
+
+.info-panel__footer {
+  padding: 8px 12px;
+  border-top: 1px solid #edf2f7;
+  display: flex;
+  justify-content: flex-end;
+  background: #f8fafc;
+}
+
+.info-panel__footer button {
+  background: #edf4fc;
+  border: 1px solid #b8d0e8;
+  border-radius: 5px;
+  color: #3a6a94;
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.info-panel__footer button:hover { background: #d6e8f7; }
+
+/* ── React Flow overrides ────────────────────────────────────────────────── */
+
+.react-flow__handle {
+  background: #9fb8ce;
+  border: 2px solid #fff;
+  width: 8px;
+  height: 8px;
+}
+
+.react-flow__edge-path {
+  stroke: #9fb8ce;
+  stroke-width: 1.5;
+}
+
+.react-flow__controls {
+  background: #fff;
+  border: 1px solid #ccd8e5;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.react-flow__controls-button {
+  background: #fff;
+  border-bottom: 1px solid #eaf0f8;
+  color: #7a94aa;
+  fill: #7a94aa;
+}
+
+.react-flow__controls-button:hover { background: #eaf0f8; }
+
+.react-flow__minimap {
+  border-radius: 8px;
+  overflow: hidden;
+}

@@ -1,0 +1,143 @@
+/* ── Reset & Base ────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0d1117;
+  color: #c8d6e5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── App Layout ──────────────────────────────────────────────────────────── */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.app__body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Chat panel ──────────────────────────────────────────────────────────── */
+
+.app__chat {
+  width: 300px;
+  min-width: 260px;
+  max-width: 360px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* ── Canvas ──────────────────────────────────────────────────────────────── */
+
+.app__canvas {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  transition: flex 0.25s ease;
+}
+
+.app__canvas--hidden {
+  flex: 0;
+  overflow: hidden;
+  display: none;
+}
+
+/* ── Preview ─────────────────────────────────────────────────────────────── */
+
+.app__preview {
+  width: 360px;
+  min-width: 280px;
+  max-width: 480px;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: width 0.25s ease;
+}
+
+.app__preview--full {
+  width: 100%;
+  max-width: 100%;
+  flex: 1;
+}
+
+/* ── Error banner ────────────────────────────────────────────────────────── */
+
+.app__error {
+  background: #2a1010;
+  border-bottom: 1px solid #5a1010;
+  color: #ff8080;
+  font-size: 13px;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.app__error strong {
+  color: #e74c3c;
+}
+
+.app__error button {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #ff8080;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.app__error button:hover {
+  background: #5a1010;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0f3460;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #16305a;
+}
+
+/* ── Utility ─────────────────────────────────────────────────────────────── */
+
+button {
+  font-family: 'Inter', sans-serif;
+}
